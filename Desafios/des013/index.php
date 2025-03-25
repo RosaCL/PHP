@@ -1,56 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Tempo</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Caixa Eletrônico</title>
+    <link rel="stylesheet" href="../ressources/css/style.css">
 </head>
-
 <body>
     <?php
-    $total=$_REQUEST['time'];   
+    $saque=$_REQUEST['valor'];
+
     ?>
     <main>
-        <h1>Calculadora de Tempo</h1>
         <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
-            <label for="time">Qual é o total de segundos?</label>
-            <input type="number" name="time" id="time" min="0" step="1" required value="<?=$total?>">
-            <input type="submit" value="Calcular">
-
-            
+            <h1>Caixa Eletrônico</h1>
+            <label for="valor">Qual o valor deseja sacar?(R$)</label>
+            <input type="number" name="valor" id="valor" step="5" required value="<?=$saque?>">
+            <input type="submit" value="Sacar">
+            <p>Notas disponíveis: R$100, R$50, R$10 e R$5</p>
         </form>
     </main>
-    <?php 
-    $sobra=$total;
-    // Total Semana
-    $semana=(int)($sobra/604800);
-    $sobra=$sobra%604800;
-    // Total dia
-    $dia=(int)($sobra/86400);
-    $sobra=$sobra%86400;    
-    // Total hora
-    $hora=(int)($sobra/3600);
-    $sobra=$sobra%3600;
-    // Total minutos
-    $min=(int)($sobra/60);
-    $sobra=$sobra%60;
-    // Total segundos
-    $segundo=$sobra;
+    <?php
+        $resto=$saque;
+        $tot100=floor($resto/100);
+        $resto%=100;
+        $tot50=floor($resto/50);
+        $resto%=50;
+        $tot10=floor($resto/10);
+        $resto%=10;
+        $tot5=floor($resto/5);
+        $resto%=5;
     ?>
     <section>
-        <h2>totalizando tudo</h2>
-        <p>Analizando o valor que você digitou. <strong><?=$total?> segundos</strong> equivalem a um total de: </p>
-        <ul>
-            <li><?=$semana?> semana</li>
-            <li><?=$dia?> dias</li>
-            <li><?=$hora?> horas</li>
-            <li><?=$min?> minutos</li>
-            <li><?=$segundo?> segundos</li>
-            
-        </ul>
-        
-    </section>
+        <h1>Saque de <?=number_format($saque, 2, ",", ".")?> reais realizado</h1> 
+        <p>O caixa eletroônico vai te entregar as seguintes notas:
+            <ul>
+                <li><img src="../public/img/100reais.jpg" alt="" srcset="Nota de 100 reais">x<?=$tot100?></li>
+                <li><img src="../public/img/50reais.jpg" alt="Nota de 50 reais">x<?=$tot50?></li>
+                <li><img src="../public/img/10reais.jpg" alt="Nota de 10 reais">x<?=$tot10?></li>
+                <li><img src="../public/img/5reais.jpg" alt="Nota de 5 reais">x<?=$tot5?></li>
+            </ul>
+        </p>
 
+    </section>
+    
 </body>
 </html>
